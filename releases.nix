@@ -13,21 +13,20 @@
     "x86_64-darwin" = "x86_64";
   }.${builtins.currentSystem},
   
-  sha256 ? (import ./hashes.nix).${platformName}.${platformArchitecture}.${version}
+  sha256 ? (import ./hashes.nix).${platformName}.${platformArchitecture}.${version},
+
+  bazelBashInputs ? [ pkgs.coreutils ]
 }:
 with pkgs;
 
 stdenv.mkDerivation rec {
-  name = "bazel-${version}";
-
-  buildInputs = [
-    bash
-  ];
+  name = "bazel-${version}";  
 
   nativeBuildInputs = [
-    which
+    which    
     unzip
     makeWrapper
+    bazelBash
   ];
 
   phases = "installPhase";
@@ -43,13 +42,17 @@ stdenv.mkDerivation rec {
     executable = true;
   };
 
-  installPhase = ''    
+  bazelBash = runCommand "bazel-bash" { buildInputs = [ makeWrapper ]; } ''
+    makeWrapper ${bash}/bin/bash $out/bin/bazel-bash \
+      --prefix PATH ":" ${lib.makeBinPath bazelBashInputs}
+  '';  
+
+  installPhase = ''
     ${src} \
       --base=$out/base \
       --bin=$out/unsafe_bin
 
     makeWrapper $out/unsafe_bin/bazel $out/bin/bazel \
-      --set BAZEL_SH ${bash}/bin/bash \
-      --prefix PATH : ${lib.makeBinPath [ ]}
+      --set BAZEL_SH ${bazelBash}/bin/bazel-bash
   '';
 }

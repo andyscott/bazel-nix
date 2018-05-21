@@ -4,7 +4,18 @@ with pkgs;
 stdenv.mkDerivation rec {
   name = "env";
 
-  bazel = import ./releases.nix { version = "0.12.0"; };
+  bazel = import ./releases.nix {
+    version = "0.12.0";
+
+    bazelBashInputs = [
+      coreutils
+      which
+      gnugrep
+      gawk
+      gnused
+      jq
+    ];
+  };
 
   shellHook =
     ''
@@ -12,6 +23,6 @@ stdenv.mkDerivation rec {
     '';
 
   buildInputs = [
-    bazel
+    bazel    
   ];
 }
