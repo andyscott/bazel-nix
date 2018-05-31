@@ -1,0 +1,14 @@
+sudo: required
+language: nix
+
+stages:
+  - build
+
+jobs:
+  include:
+    - stage: build
+      script: ./tools/bazel build ...
+      os: osx
+    - stage: build
+      script: ./tools/bazel build ...
+      os: linux
