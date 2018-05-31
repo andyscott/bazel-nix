@@ -6,8 +6,7 @@ if [ -z "$IS_IN_NIX" ]; then
   echo "Consider entering a nix-shell if you'd like to avoid this overhead"
   echo ""
 
-  #$BAZEL_REAL "$@"
-  eval nix-shell --command \"bazel $@\"  
+  eval nix-shell --pure --command \"bazel $@\"  
 else
   $BAZEL_REAL "$@"
 fi
