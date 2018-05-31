@@ -48,9 +48,11 @@ stdenv.mkDerivation rec {
   '';  
 
   installPhase = ''
-    ${src} \
+    mkdir not-my-home
+    HOME=`pwd`/not-my-home ${src} \
       --base=$out/base \
       --bin=$out/unsafe_bin
+    rm -r not-my-home
 
     makeWrapper $out/unsafe_bin/bazel $out/bin/bazel \
       --set BAZEL_SH ${bazelBash}/bin/bazel-bash
