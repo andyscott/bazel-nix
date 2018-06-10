@@ -6,7 +6,7 @@ stdenv.mkDerivation rec {
 
   src = builtins.filterSource (path: type: false) ./.;
   
-  bazel = import ./default.nix {
+  bazel = import ./../default.nix {
     version = "0.14.1";    
   };
 
