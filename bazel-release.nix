@@ -1,7 +1,7 @@
 {
   pkgs ? import <nixpkgs> {},
 
-  version ? "0.12.0",
+  version,
   
   platformName ? {
     "x86_64-linux" = "linux";
@@ -13,9 +13,16 @@
     "x86_64-darwin" = "x86_64";
   }.${builtins.currentSystem},
   
-  sha256 ? (import ./hashes.nix).${platformName}.${platformArchitecture}.${version},
+  sha256 ? (import ./bazel-release-hashes.nix).${platformName}.${platformArchitecture}.${version},
 
-  bazelBashInputs ? [ pkgs.coreutils ]
+  bazelPathInputs ? [
+    pkgs.coreutils
+    pkgs.bash
+    pkgs.which
+    pkgs.gnugrep
+    pkgs.gawk
+    pkgs.gnused    
+  ]
 }:
 with pkgs;
 
@@ -44,17 +51,18 @@ stdenv.mkDerivation rec {
 
   bazelBash = runCommand "bazel-bash" { buildInputs = [ makeWrapper ]; } ''
     makeWrapper ${bash}/bin/bash $out/bin/bazel-bash \
-      --prefix PATH ":" ${lib.makeBinPath bazelBashInputs}
+      --prefix PATH ":" ${lib.makeBinPath bazelPathInputs}
   '';  
 
   installPhase = ''
     mkdir not-my-home
     HOME=`pwd`/not-my-home ${src} \
       --base=$out/base \
-      --bin=$out/unsafe_bin
+      --bin=$out/unwrapped_bin
     rm -r not-my-home
 
-    makeWrapper $out/unsafe_bin/bazel $out/bin/bazel \
+    makeWrapper $out/unwrapped_bin/bazel $out/bin/bazel \
+      --set BAZEL_IN_NIX true \
       --set BAZEL_SH ${bazelBash}/bin/bazel-bash
   '';
 }
