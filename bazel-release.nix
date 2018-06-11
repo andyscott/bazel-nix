@@ -27,7 +27,7 @@
 with pkgs;
 
 stdenv.mkDerivation rec {
-  name = "bazel-${version}";  
+  name = "bazel-release-${version}";
 
   nativeBuildInputs = [
     which    
@@ -62,7 +62,6 @@ stdenv.mkDerivation rec {
     rm -r not-my-home
 
     makeWrapper $out/unwrapped_bin/bazel $out/bin/bazel \
-      --set BAZEL_IN_NIX true \
       --set BAZEL_SH ${bazelBash}/bin/bazel-bash
   '';
 }
