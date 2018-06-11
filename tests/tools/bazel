@@ -31,4 +31,4 @@ for file in *.nix; do
   fi
 done
 
-exec ./result/bazel "$@"
+BAZEL_IN_NIX=true exec ./result/bazel "$@"

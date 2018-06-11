@@ -12,11 +12,10 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     bazel
-    which
   ];
 
   installPhase = ''
-    mkdir $out
-    ln -s $(which bazel) $out/bazel
+    mkdir -p $out
+    ln -s $bazel/bin/bazel $out/bazel
   '';
 }
