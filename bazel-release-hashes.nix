@@ -7,6 +7,7 @@
       "0.14.0" = "0gm2bsanjhb9zrgbphgvli64clsilx06bz89l4pk8cf984phbcvd";
       "0.14.1" = "0m9jrgwfxg6cf46r4pmbbgwk6dfyrlsi5b10jbih8b8r3isgdzlk";
       "0.16.0" = "1lpmzv68hyh00p5gb6q2h96p33j1vdhs1jr5p8y14isy47585zmd";
+      "0.28.1" = "0in4zdci4cgjh5ng17zd06s5srblgc5ysz0nsm427d3333wggc9a";
     };
   };
   "linux" = {
@@ -17,6 +18,7 @@
       "0.14.0" = "1zm5mqlqibmbidllggpvj7rr28ckj4ackgj8c5imp1942r58388i";
       "0.14.1" = "0i393g1kw7n1fspa78338l7ng935spax1b8aj6avf3m787rm0pl8";
       "0.16.0" = "0p2x4qjf4n02kn0m8n88bxs8vffidbnr2ra2qbbyjf8nvbvdrn84";
+      "0.28.1" = "071mgjwyw2h8chd56236zb47jxgsy1hagrh6vbxa6ybmhh5l7x74";
     };
   };
 }
